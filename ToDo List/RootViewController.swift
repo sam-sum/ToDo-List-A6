@@ -107,6 +107,16 @@ class RootViewController: UITableViewController {
         return true
     }
 
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title:  "Edit", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                print("edit item requested")
+                self.didClickedEditButton(with: indexPath.row)
+                success(true)
+            })
+        editAction.backgroundColor = .systemBlue
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+    
     // *****
     // Action function to handle adding a new task entry
     // *****
@@ -159,6 +169,13 @@ extension RootViewController: ToDoListViewCellDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailScreen") as! DetailViewController
         vc.editingItem = data[tag]
+        //change the animation direction
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        self.navigationController?.view.layer.add(transition, forKey: kCATransition)
         self.navigationController?.pushViewController(vc,animated:true)
     }
     
