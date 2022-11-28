@@ -22,7 +22,7 @@ protocol ToDoListViewCellDelegate: AnyObject {
 }
 
 class ToDoListViewCell: UITableViewCell {
-
+/*
     @IBOutlet weak var switchIsCompleted: UISwitch!{
         didSet {
             switchIsCompleted.thumbTintColor = .white
@@ -32,7 +32,7 @@ class ToDoListViewCell: UITableViewCell {
             switchIsCompleted.layer.cornerRadius = 16.0
         }
     }
-    
+*/
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDesc: UILabel!
     @IBOutlet weak var viewCell: UIView!
@@ -68,8 +68,8 @@ class ToDoListViewCell: UITableViewCell {
     func configure(with item: ToDoItem, row: Int) {
         self.tagSwitch = row
         self.tagEditButton = row
-        switchIsCompleted.tag = row
-        switchIsCompleted.setOn(item.isCompleted, animated: false)
+        //switchIsCompleted.tag = row
+        //switchIsCompleted.setOn(item.isCompleted, animated: false)
         lblTitle.text = item.name
         lblDesc.text = getDescription(item)
         if item.isCompleted {

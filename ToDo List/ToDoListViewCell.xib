@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,16 +19,8 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvk-e5-7sc">
                         <rect key="frame" x="9" y="6" width="302" height="59"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uAn-DG-n4I">
-                                <rect key="frame" x="11" y="14" width="51" height="31"/>
-                                <color key="onTintColor" systemColor="systemGray2Color"/>
-                                <color key="thumbTintColor" systemColor="systemGray6Color"/>
-                                <connections>
-                                    <action selector="didChangeSwitchValue:" destination="KGk-i7-Jjw" eventType="valueChanged" id="2bV-ld-XKR"/>
-                                </connections>
-                            </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFe-Fv-ata">
-                                <rect key="frame" x="75" y="6" width="83" height="21"/>
+                                <rect key="frame" x="17" y="5" width="83" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="SQy-Gk-jAy"/>
                                 </constraints>
@@ -38,7 +29,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Desc Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJl-ky-WXn">
-                                <rect key="frame" x="75" y="31" width="71.666666666666686" height="19.333333333333329"/>
+                                <rect key="frame" x="17" y="31" width="71.666666666666671" height="19.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.96078431610000004" green="0.96470588450000005" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -46,13 +37,11 @@
                         </subviews>
                         <color key="backgroundColor" red="0.93725490570000003" green="0.59215688710000003" blue="0.58431375029999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="uAn-DG-n4I" firstAttribute="centerY" secondItem="mvk-e5-7sc" secondAttribute="centerY" id="61P-LT-6lf"/>
-                            <constraint firstItem="uAn-DG-n4I" firstAttribute="leading" secondItem="mvk-e5-7sc" secondAttribute="leading" constant="11" id="DQg-N8-f2e"/>
                             <constraint firstAttribute="bottom" secondItem="zJl-ky-WXn" secondAttribute="bottom" constant="8.6666666666666714" id="Td1-Ko-fN7"/>
-                            <constraint firstItem="zJl-ky-WXn" firstAttribute="top" secondItem="CFe-Fv-ata" secondAttribute="bottom" constant="4" id="UbZ-yq-A2e"/>
-                            <constraint firstItem="zJl-ky-WXn" firstAttribute="leading" secondItem="uAn-DG-n4I" secondAttribute="trailing" constant="15" id="W9c-sx-MBd"/>
-                            <constraint firstItem="CFe-Fv-ata" firstAttribute="top" secondItem="mvk-e5-7sc" secondAttribute="top" constant="6" id="bBn-Z5-Hjl"/>
-                            <constraint firstItem="CFe-Fv-ata" firstAttribute="leading" secondItem="uAn-DG-n4I" secondAttribute="trailing" constant="15" id="th0-OC-nnP"/>
+                            <constraint firstItem="zJl-ky-WXn" firstAttribute="top" secondItem="CFe-Fv-ata" secondAttribute="bottom" constant="5" id="UbZ-yq-A2e"/>
+                            <constraint firstItem="CFe-Fv-ata" firstAttribute="leading" secondItem="zJl-ky-WXn" secondAttribute="leading" id="VLq-Y0-Ume"/>
+                            <constraint firstItem="CFe-Fv-ata" firstAttribute="top" secondItem="mvk-e5-7sc" secondAttribute="top" constant="5" id="bBn-Z5-Hjl"/>
+                            <constraint firstItem="CFe-Fv-ata" firstAttribute="leading" secondItem="mvk-e5-7sc" secondAttribute="leading" constant="17" id="ul6-uI-ous"/>
                             <constraint firstAttribute="width" secondItem="mvk-e5-7sc" secondAttribute="height" multiplier="302:59" id="xkb-NS-jaA"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -73,18 +62,9 @@
             <connections>
                 <outlet property="lblDesc" destination="zJl-ky-WXn" id="DGb-bW-Wjk"/>
                 <outlet property="lblTitle" destination="CFe-Fv-ata" id="AAr-yJ-TiR"/>
-                <outlet property="switchIsCompleted" destination="uAn-DG-n4I" id="xwO-m8-1bA"/>
                 <outlet property="viewCell" destination="mvk-e5-7sc" id="94B-16-kqo"/>
             </connections>
             <point key="canvasLocation" x="59.541984732824424" y="29.929577464788736"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

@@ -117,6 +117,18 @@ class RootViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [editAction])
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let data = self.toDoList.getAllItems()
+        let swipeTitle = (data[indexPath.row].isCompleted) ? "Undo" : "Done"
+        let completeAction = UIContextualAction(style: .normal, title:  swipeTitle, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                print("toggle item completed")
+                let isDone: Bool = !data[indexPath.row].isCompleted
+                self.didChangeSwitchValue(with: indexPath.row, value: isDone )
+                    success(true)
+            })
+        completeAction.backgroundColor = .systemYellow
+        return UISwipeActionsConfiguration(actions: [completeAction])    }
+    
     // *****
     // Action function to handle adding a new task entry
     // *****
