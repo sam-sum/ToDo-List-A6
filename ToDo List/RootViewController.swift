@@ -76,19 +76,6 @@ class RootViewController: UITableViewController {
     }
      
     // *****
-    // Additional function handles the deletion of a table cell
-    // *****
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            let data = toDoList.getAllItems()
-            let deleteItem = data[indexPath.row]
-            toDoList.removeItem(deleteItem)
-            tableView.reloadData()
-        }
-    }
-    
-    // *****
     // Additional function supports rearranging the table view
     // *****
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -107,6 +94,9 @@ class RootViewController: UITableViewController {
         return true
     }
 
+    // *****
+    // Additional function handles left-to-right swipe
+    // *****
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title:  "Edit", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
                 print("edit item requested")
@@ -117,17 +107,33 @@ class RootViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [editAction])
     }
     
+    // *****
+    // Additional function handles right-to-left swipe
+    // *****
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let data = self.toDoList.getAllItems()
-        let swipeTitle = (data[indexPath.row].isCompleted) ? "Undo" : "Done"
-        let completeAction = UIContextualAction(style: .normal, title:  swipeTitle, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        
+        let completeTitle = (data[indexPath.row].isCompleted) ? "Undo" : "Done"
+        let completeAction = UIContextualAction(style: .normal, title:  completeTitle, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
                 print("toggle item completed")
                 let isDone: Bool = !data[indexPath.row].isCompleted
                 self.didChangeSwitchValue(with: indexPath.row, value: isDone )
-                    success(true)
+                success(true)
             })
         completeAction.backgroundColor = .systemYellow
-        return UISwipeActionsConfiguration(actions: [completeAction])    }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                print("delete item requested")
+                // Delete the row from the data source
+                let deleteItem = data[indexPath.row]
+                self.toDoList.removeItem(deleteItem)
+                self.tableView.reloadData()
+                success(true)
+            })
+        deleteAction.backgroundColor = .systemRed
+
+        return UISwipeActionsConfiguration(actions: [deleteAction, completeAction])
+    }
     
     // *****
     // Action function to handle adding a new task entry
