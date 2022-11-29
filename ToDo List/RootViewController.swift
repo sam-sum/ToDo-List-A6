@@ -22,6 +22,8 @@ class RootViewController: UITableViewController {
     private var toDoList: ToDoList!
     //private var selectedItem: ToDoItem?
     private static let toDoItemCell = "Items"
+    private var longPressGesture: UILongPressGestureRecognizer!
+    private var deleteEnabled = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,9 @@ class RootViewController: UITableViewController {
         
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem!.tintColor = Utility.getUIColor("#FF9292")
+        
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized(_:)))
+                self.tableView.addGestureRecognizer(longPressGesture)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -113,26 +118,44 @@ class RootViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let data = self.toDoList.getAllItems()
         
-        let completeTitle = (data[indexPath.row].isCompleted) ? "Undo" : "Done"
-        let completeAction = UIContextualAction(style: .normal, title:  completeTitle, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-                print("toggle item completed")
-                let isDone: Bool = !data[indexPath.row].isCompleted
-                self.didChangeSwitchValue(with: indexPath.row, value: isDone )
-                success(true)
+        if deleteEnabled {
+            let deleteAction = UIContextualAction(style: .destructive, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                    print("delete item requested")
+                    // Delete the row from the data source
+                    let deleteItem = data[indexPath.row]
+                    self.toDoList.removeItem(deleteItem)
+                    self.tableView.reloadData()
+                    success(true)
+                })
+            deleteAction.backgroundColor = .systemRed
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        } else {
+            let completeTitle = (data[indexPath.row].isCompleted) ? "Undo" : "Done"
+            let completeAction = UIContextualAction(style: .normal, title:  completeTitle, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                    print("toggle item completed")
+                    let isDone: Bool = !data[indexPath.row].isCompleted
+                    self.didChangeSwitchValue(with: indexPath.row, value: isDone )
+                    success(true)
             })
-        completeAction.backgroundColor = .systemYellow
-        
-        let deleteAction = UIContextualAction(style: .destructive, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-                print("delete item requested")
-                // Delete the row from the data source
-                let deleteItem = data[indexPath.row]
-                self.toDoList.removeItem(deleteItem)
-                self.tableView.reloadData()
-                success(true)
-            })
-        deleteAction.backgroundColor = .systemRed
-
-        return UISwipeActionsConfiguration(actions: [deleteAction, completeAction])
+            completeAction.backgroundColor = .systemYellow
+            return UISwipeActionsConfiguration(actions: [completeAction])
+        }
+    }
+    
+    // *****
+    // Handles the long press event
+    // *****
+    @objc func longPressGestureRecognized(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            if (self.tableView.indexPathForRow(at: sender.location(in: self.tableView))?.section) != nil {
+                print("long press detected")
+                self.deleteEnabled = true
+                Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { timer in
+                    print("Timer fired!")
+                    self.deleteEnabled = false
+                }
+            }
+        }
     }
     
     // *****
